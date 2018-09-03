@@ -32,6 +32,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'phone',
         'gender',
         'ac',
+        'user_type',
         'created_by',
         'updated_by'
     ];

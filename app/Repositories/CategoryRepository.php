@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 
+use App\Libraries\Helper;
 use App\Models\Category;
 
 class CategoryRepository extends BaseRepository
@@ -23,5 +24,15 @@ class CategoryRepository extends BaseRepository
     {
         // TODO: Implement model() method.
         return Category::class;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \Prettus\Repository\Exceptions\RepositoryException
+     */
+    public function getPage(){
+        $query = $this->makeModel()->newQuery();
+        $page = $query->paginate(Helper::getItemPerPage());
+        return $page;
     }
 }

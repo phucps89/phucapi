@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
@@ -23,6 +25,9 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+$app->instance(Request::class, Request::capture());
+
+$app->configure('auth');
 $app->configure('jwt');
 $app->configure('filesystems');
 $app->configure('repository');
@@ -109,9 +114,10 @@ $app->middleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-
+//dd(\App\Libraries\Helper::getRequestInstance()->all());
+//dd(app('request')->headers->all());
  $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+ $app->register(App\Providers\AuthServiceProvider::class);
  $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Prettus\Repository\Providers\RepositoryServiceProvider::class);
 $app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
@@ -123,6 +129,8 @@ $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(\Intervention\Image\ImageServiceProvider::class);
 $app->register(Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
 $app->register(Basemkhirat\Elasticsearch\ElasticsearchServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
 
 if(class_exists('Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider')){
     $app->register(Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider::class);
