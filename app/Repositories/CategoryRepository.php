@@ -31,7 +31,13 @@ class CategoryRepository extends BaseRepository
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      */
     public function getPage(){
+        $table = $this->makeModel()->getTable();
+        $querySearch = [
+            'id' => [$table,'id','='],
+            'name' => [$table,'name','LIKE'],
+        ];
         $query = $this->makeModel()->newQuery();
+        $query = Helper::searchFieldsMapping($query, $querySearch);
         $page = $query->paginate(Helper::getItemPerPage());
         return $page;
     }
